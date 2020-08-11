@@ -41,8 +41,10 @@
 (setq org-image-actual-width nil)
 
 
-;;(setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"
-;;                              "xelatex -interaction nonstopmode %f"))
+;; Latex Export PDF Chinese Support
+;; should work with HEADER
+(setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"
+                              "xelatex -interaction nonstopmode %f"))
 
 ;;----------------------------------------------------------------------------------
 ;;org-download
@@ -65,13 +67,14 @@
 
 (advice-add #'org-download--dir-1 :override #'my-org-download--dir-1)
 
-(setq org-download-image-attr-list '("#+ATTR_HTML: width=\"600px\"\n #+ATTR_ORG: :width 600"))
+(setq org-download-image-attr-list '("#+ATTR_HTML: width=\"600px\"\n#+ATTR_ORG: :width 600"))
 ;;----------------------------------------------------------------------------------
 ;;org-download
 ;;----------------------------------------------------------------------------------
 
 
-
-
+(load-file "/Users/ludwigws/.config/emacs/private/accelerate.el/accelerate.el")
+(accelerate previous-line 2)
+(accelerate next-line 2)
 
 (provide 'init-local)
