@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: anki-latex
+# key: al_
+# --
+
+[latex]\$$1\$[/latex]	[latex]\$$2\$[/latex]

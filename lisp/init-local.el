@@ -1,6 +1,8 @@
 ;; latex
 (require-package 'auctex)
 (require-package 'cdlatex)
+(require-package 'reveal-in-osx-finder)
+
 
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
@@ -18,6 +20,7 @@
 ;; (require-package 'helm)
 
 
+(require-package 'fzf)
 ;; -------------------------------------------
 ;; find my-note (fzf)
 ;; -------------------------------------------
@@ -26,7 +29,9 @@
 ;; super, hyper
 (defun find-note ()
   (interactive)
-  (counsel-fzf nil "~/OneDrive/MyNote/")
+  ;; when used in home folder, counsel-fzf is too slow, and sometimes hanging
+  ;;  (counsel-fzf nil "~/OneDrive/MyNote/")
+  (fzf/start "~/OneDrive/MyNote/")
   )
 (global-set-key (kbd "s-p") 'find-note)
 
@@ -72,9 +77,40 @@
 ;;org-download
 ;;----------------------------------------------------------------------------------
 
-
+;;----------------------------------------------------------------------------------
+;; accelerate
+;;----------------------------------------------------------------------------------
 (load-file "/Users/ludwigws/.config/emacs/private/accelerate.el/accelerate.el")
 (accelerate previous-line 2)
 (accelerate next-line 2)
+;;----------------------------------------------------------------------------------
+;; accelerate
+;;----------------------------------------------------------------------------------
+
+
+(load-theme 'doom-gruvbox-light)
+
+;;----------------------------------------------------------------------------------
+;; snippets
+;;----------------------------------------------------------------------------------
+(require-package 'yasnippet)
+(require-package 'yasnippet-snippets)
+(yas-global-mode)
+
+(setq hippie-expand-try-functions-list '(try-complete-file-name-partially try-complete-file-name try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill yas-hippie-try-expand))
+
+(global-set-key (kbd "s-/") 'hippie-expand)
+;;----------------------------------------------------------------------------------
+;; snippets
+;;----------------------------------------------------------------------------------
+
+
+
+(global-hl-line-mode 1)
+
+
+;; (custom-set-variables
+;;  '(markdown-command "/usr/local/bin/pandoc"))
+
 
 (provide 'init-local)
