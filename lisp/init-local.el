@@ -84,6 +84,9 @@
   '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
+;; 支持 org-mode LaTex 异步预览，Buffer 全部预览
+(require-package 'texfrag)
+(texfrag-global-mode)
 
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
