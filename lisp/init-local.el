@@ -1,7 +1,83 @@
+(require-package 'reveal-in-osx-finder)
+
+
+
+
 ;; latex
 (require-package 'auctex)
 (require-package 'cdlatex)
-(require-package 'reveal-in-osx-finder)
+
+;;----------------------------------------------------------------------------------
+;; LateX
+;;----------------------------------------------------------------------------------
+
+;; Chinese fragment Preview
+;; (setq org-latex-packages-alist
+;;       '(("fontset=macnew,UTF8" "ctex" t)))
+
+;; (setq org-preview-latex-default-process 'imagemagick)
+
+;; (setq org-preview-latex-process-alist
+;;       '(
+;;         (dvisvgm
+;;          :programs ("xelatex" "dvisvgm")
+;;          :description "xdv > svg"
+;;          :message "you need to install the programs: xelatex and dvisvgm."
+;;          :image-input-type "xdv"
+;;          :image-output-type "svg"
+;;          :image-size-adjust (1.7 . 1.5)
+;;          :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
+;;          :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
+;;         (imagemagick
+;;          :programs ("latex" "convert")
+;;          :description "pdf > png"
+;;          :message "you need to install the programs: xelatex and imagemagick."
+;;          :image-input-type "pdf"
+;;          :image-output-type "png"
+;;          :image-size-adjust (1.0 . 1.0)
+;;          :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
+;;          :image-converter
+;;          ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+;; ;;----------------------------------------------------------------------------------
+;; LateX
+;;----------------------------------------------------------------------------------
+
+;; this is internal variable
+;; (setq texmathp-environments '("equation" "eqnarray" "eqnarray*" "math" "displaymat..." "minipage" "align"))
+
+
+;; cdlatex-sub-superscript
+;; (texmathp-match-environment 4)
+;; 正确的方式其实应该是 custom texmathp-tex-commands
+(setq texmathp-tex-commands-default '(("$$" sw-toggle)
+                                      ("$" sw-toggle)
+                                      ("\\hbox" arg-off)
+                                      ("\\vbox" arg-off)
+                                      ("\\vtop" arg-off)
+                                      ("\\vcenter" arg-off)
+                                      ("equation" env-on)
+                                      ("eqnarray" env-on)
+                                      ("eqnarray*" env-on)
+                                      ("math" env-on)
+                                      ("displaymath" env-on)
+                                      ("minipage" env-off)
+                                      ("\\fbox" arg-off)
+                                      ("\\mbox" arg-off)
+                                      ("\\framebox" arg-off)
+                                      ("\\label" arg-off)
+                                      ("\\textrm" arg-off)
+                                      ("\\(" sw-on)
+                                      ("\\)" sw-off)
+                                      ("\\[" sw-on)
+                                      ("\\]" sw-off)
+                                      ("\\ensuremath" arg-on)
+                                      ("align" env-on)
+                                      )
+      )
+
+'(texmathp-tex-commands '(("align" env-on))
+
+                        )
 
 
 ;; keymap
@@ -21,6 +97,7 @@
 
 
 (require-package 'fzf)
+(autoload 'fzf/start "fzf")
 ;; -------------------------------------------
 ;; find my-note (fzf)
 ;; -------------------------------------------
@@ -111,6 +188,23 @@
 
 ;; (custom-set-variables
 ;;  '(markdown-command "/usr/local/bin/pandoc"))
+
+
+;;TODO 历史记录，保证 Emacs 异常退出时候文件保留
+;;----------------------------------------------------------------------------------
+;; undo-tree
+;;----------------------------------------------------------------------------------
+(require-package 'undo-tree)
+(global-undo-tree-mode)
+;;----------------------------------------------------------------------------------
+;; undo-tree
+;;----------------------------------------------------------------------------------
+
+
+;; Layouts
+;; Sessions
+
+
 
 
 (provide 'init-local)
