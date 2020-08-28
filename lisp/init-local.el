@@ -80,6 +80,11 @@
                         )
 
 
+'(org-format-latex-options
+  '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                ("begin" "$1" "$" "$$" "\\(" "\\[")))
+
+
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
 (define-key cua-global-keymap (kbd "C-<return>") nil)

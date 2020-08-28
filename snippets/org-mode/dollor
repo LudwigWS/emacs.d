@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: dollor
+# key: d_
+# --
+\$$1\$ $0
