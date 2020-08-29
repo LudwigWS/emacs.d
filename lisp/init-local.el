@@ -75,18 +75,26 @@
                                       )
       )
 
-'(texmathp-tex-commands '(("align" env-on))
+(setq texmathp-tex-commands '(("align" env-on)
+                              ("flalign*" env-on)
+                              )
+      )
 
-                        )
 
-
-'(org-format-latex-options
-  '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
-                ("begin" "$1" "$" "$$" "\\(" "\\[")))
+;; LaTex fragment 更大的预览图片
+(org-format-latex-options
+ '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+               ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
 ;; 支持 org-mode LaTex 异步预览，Buffer 全部预览
+;; 使用 preview 的方式
+;; orgmode export default use MathJax, If installed texfrag package, even not require it,
+;; eqaution in html will become png image.
+;; see [[https://orgmode.org/manual/Math-formatting-in-HTML-export.html#Math-formatting-in-HTML-export][Math formatting in HTML export (The Org Manual)]]
 (require-package 'texfrag)
 (texfrag-global-mode)
+;;(set-default 'preview-default-document-pt 12)
+;; (set-default 'preview-scale-function 1.2)
 
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
