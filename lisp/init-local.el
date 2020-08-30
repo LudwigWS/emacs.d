@@ -91,6 +91,10 @@
 ;; orgmode export default use MathJax, If installed texfrag package, even not require it,
 ;; eqaution in html will become png image.
 ;; see [[https://orgmode.org/manual/Math-formatting-in-HTML-export.html#Math-formatting-in-HTML-export][Math formatting in HTML export (The Org Manual)]]
+;; thanks god, it has the way to get all benifit between them.
+;; see Org Mode Manual
+;; #+OPTIONS: tex:t
+;; Do the right thing automatically (MathJax)
 (require-package 'texfrag)
 (texfrag-global-mode)
 ;;(set-default 'preview-default-document-pt 12)
@@ -221,6 +225,8 @@
 ;; Sessions
 
 
-
+;; [[https://github.com/manateelazycat/thing-edit][manateelazycat/thing-edit: Copy and paste anything under cursor.]]
+(load-file "/Users/ludwigws/.config/emacs/private/packages/thing-edit/thing-edit.el")
+(require 'thing-edit)
 
 (provide 'init-local)
