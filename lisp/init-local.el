@@ -100,6 +100,16 @@
 ;;(set-default 'preview-default-document-pt 12)
 ;; (set-default 'preview-scale-function 1.2)
 
+
+(require-package 'org-drill)
+(require 'org-drill)
+(require-package 'anki-editor)
+
+;; install package org-plus-contrib
+;; run package-refresh-contents
+;; (require-package 'org-plus-contrib)
+;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
 (define-key cua-global-keymap (kbd "C-<return>") nil)
@@ -185,7 +195,8 @@
 ;;----------------------------------------------------------------------------------
 
 
-(load-theme 'doom-gruvbox-light)
+;; (load-theme 'doom-gruvbox-light)
+(load-theme 'doom-solarized-light)
 
 ;;----------------------------------------------------------------------------------
 ;; snippets
@@ -220,7 +231,6 @@
 ;; undo-tree
 ;;----------------------------------------------------------------------------------
 
-
 ;; Layouts
 ;; Sessions
 
@@ -228,5 +238,29 @@
 ;; [[https://github.com/manateelazycat/thing-edit][manateelazycat/thing-edit: Copy and paste anything under cursor.]]
 (load-file "/Users/ludwigws/.config/emacs/private/packages/thing-edit/thing-edit.el")
 (require 'thing-edit)
+
+
+
+(defun eudic-translate-at-point ()
+  (interactive)
+  (let* ((word (thing-at-point 'symbol)))
+    (message word)
+    (do-applescript
+     (concat
+      "on run\n"
+      "set theQuery to "
+      "\""
+      word
+      "\"\n"
+      "tell Applications \"Eudic\"\n"
+      "activate\n"
+      "show dic with word theQuery\n"
+      "end tell\n"
+      "end run"
+      )
+     )
+    ))
+
+
 
 (provide 'init-local)
