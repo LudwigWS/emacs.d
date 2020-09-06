@@ -1,3 +1,5 @@
+(require-package 'use-package)
+
 (require-package 'reveal-in-osx-finder)
 
 
@@ -106,9 +108,43 @@
 (require-package 'anki-editor)
 
 ;; install package org-plus-contrib
-;; run package-refresh-contents
-;; (require-package 'org-plus-contrib)
+;; run package-refresh-contents first
 ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+;; (require-package 'org-plus-contrib)
+
+;; --------------------------------------------------------
+;; org-roam
+;; TODO deft
+;; --------------------------------------------------------
+;; @see [Installing from MELPA (Org-roam User Manual)](https://www.orgroam.com/manual/Installing-from-MELPA.html#Installing-from-MELPA)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(require-package 'org-roam)
+(setq org-roam-directory "~/OneDrive/MyNote/")
+(add-hook 'after-init-hook 'org-roam-mode)
+
+
+;; @see [[https://github.com/org-roam/org-roam-server#installation][org-roam/org-roam-server: A Web Application to Visualize the Org-Roam Database]]
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+
+;; @see [[https://www.orgroam.com/manual/Installation-_00281_0029.html#Installation-_00281_0029][Installation (1) (Org-roam User Manual)]]
+(require 'org-roam-protocol)
+;; --------------------------------------------------------
+;; org-roam
+;; --------------------------------------------------------
+
 
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
@@ -196,7 +232,7 @@
 
 
 ;; (load-theme 'doom-gruvbox-light)
-(load-theme 'doom-solarized-light)
+(load-theme 'doom-solarized-light t)
 
 ;;----------------------------------------------------------------------------------
 ;; snippets
@@ -243,7 +279,7 @@
 
 (defun eudic-translate-at-point ()
   (interactive)
-  (let* ((word (thing-at-point 'symbol)))
+  (let* ((word (thing-at-point 'word))) ;; or 'symbol
     (message word)
     (do-applescript
      (concat

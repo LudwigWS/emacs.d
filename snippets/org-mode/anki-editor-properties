@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: anki-editor properties
+# key: ap_
+# --
+   :PROPERTIES:
+   :ANKI_DECK: ${1:Math}
+   :ANKI_NOTE_TYPE: ${2:Basic}
+   :ANKI_TAGS: ${3}
+   :END:
