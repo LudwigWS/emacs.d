@@ -141,9 +141,35 @@
 
 ;; @see [[https://www.orgroam.com/manual/Installation-_00281_0029.html#Installation-_00281_0029][Installation (1) (Org-roam User Manual)]]
 (require 'org-roam-protocol)
+
+(use-package company-org-roam
+  :ensure t
+  :config
+  (push 'company-org-roam company-backends))
+
+
+;; 实现网页内容摘录
+;; [[https://www.zmonster.me/2020/06/27/org-roam-introduction.html][使用 org-roam 构建自己的知识网络 · ZMonster's Blog]]
+(add-to-list 'org-roam-capture-ref-templates
+             '("a" "Annotation" plain (function org-roam-capture--get-point)
+               "%U ${body}\n"
+               :file-name "${slug}"
+               :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_alias:\n"
+               :immediate-finish t
+               :unnarrowed t))
 ;; --------------------------------------------------------
 ;; org-roam
 ;; --------------------------------------------------------
+
+(require-package 'org-journal)
+(use-package org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry)
+  :custom
+  (org-journal-date-prefix "#+title: ")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-dir org-roam-directory)
+  (org-journal-date-format "%A, %d %B %Y"))
 
 
 ;; keymap
@@ -297,6 +323,9 @@
      )
     ))
 
-
+;; [[https://github.com/lorniu/go-translate][lorniu/go-translate: Improved Google Translate interface with asynchronous request and better user experience.]]
+(require-package 'go-translate)
+(setq go-translate-base-url "https://translate.google.cn")
+(setq go-translate-local-language "zh-CN")
 
 (provide 'init-local)
