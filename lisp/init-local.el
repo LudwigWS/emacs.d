@@ -112,6 +112,10 @@
 ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 ;; (require-package 'org-plus-contrib)
 
+
+
+
+
 ;; --------------------------------------------------------
 ;; org-roam
 ;; TODO deft
@@ -121,7 +125,7 @@
 (require-package 'org-roam)
 (setq org-roam-directory "~/OneDrive/MyNote/")
 (add-hook 'after-init-hook 'org-roam-mode)
-
+(setq org-default-notes-file "~/OneDrive/MyNote/.notes.org")
 
 ;; @see [[https://github.com/org-roam/org-roam-server#installation][org-roam/org-roam-server: A Web Application to Visualize the Org-Roam Database]]
 (use-package org-roam-server
@@ -170,6 +174,23 @@
   (org-journal-file-format "%Y-%m-%d.org")
   (org-journal-dir org-roam-directory)
   (org-journal-date-format "%A, %d %B %Y"))
+
+;; --------------------------------------------------------
+;; org-roam-bibtex
+;; org-roam-bibtex is a library which offers a tighter integration between org-roam, helm-bibtex, and org-ref.
+;; --------------------------------------------------------
+(require-package 'org-roam-bibtex)
+(require-package 'ivy-bibtex)
+(require-package 'org-ref)
+(use-package org-roam-bibtex
+  :after org-roam
+  ;;   :load-path "~/projects/org-roam-bibtex/" ;Modify with your own path
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :bind (:map org-mode-map
+              (("C-c n a" . orb-note-actions))))
+;; --------------------------------------------------------
+;; org-roam-bibtex
+;; --------------------------------------------------------
 
 
 ;; keymap
@@ -327,5 +348,9 @@
 (require-package 'go-translate)
 (setq go-translate-base-url "https://translate.google.cn")
 (setq go-translate-local-language "zh-CN")
+
+
+;; (push (list 'company-capf 'company-org-roam ) company-backends)
+
 
 (provide 'init-local)
