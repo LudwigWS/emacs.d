@@ -3,6 +3,9 @@
 (require-package 'reveal-in-osx-finder)
 
 
+;; [[https://emacs.stackexchange.com/questions/41220/org-mode-disable-indentation-when-promoting-and-demoting-trees-subtrees][Org-mode : disable indentation when promoting and demoting trees + subtrees - Emacs Stack Exchange]]
+(setq org-adapt-indentation nil)
+
 
 
 ;; latex
@@ -103,9 +106,16 @@
 ;; (set-default 'preview-scale-function 1.2)
 
 
+
+
+
+
+
 (require-package 'org-drill)
 (require 'org-drill)
 (require-package 'anki-editor)
+
+
 
 ;; install package org-plus-contrib
 ;; run package-refresh-contents first
@@ -193,6 +203,12 @@
 ;; --------------------------------------------------------
 
 
+;; (setq company-idle-delay 0
+;;       company-minimum-prefix-length 0)
+;; (push 'company-capf company-backends)
+
+
+
 ;; keymap
 ;; recover: C-<RET>     (org-insert-heading-respect-content)
 (define-key cua-global-keymap (kbd "C-<return>") nil)
@@ -267,6 +283,10 @@
 ;;org-download
 ;;----------------------------------------------------------------------------------
 
+
+
+
+
 ;;----------------------------------------------------------------------------------
 ;; accelerate
 ;;----------------------------------------------------------------------------------
@@ -323,7 +343,7 @@
 (require 'thing-edit)
 
 
-
+;; 可以省略 \n"
 (defun eudic-translate-at-point ()
   (interactive)
   (let* ((word (thing-at-point 'word))) ;; or 'symbol
@@ -351,6 +371,19 @@
 
 
 ;; (push (list 'company-capf 'company-org-roam ) company-backends)
+
+
+;; (add-to-list 'load-path "~/.emacs.d/private/packages/omnifocus-capture")
+(load "~/.emacs.d/private/packages/omnifocus-capture/omnifocus-capture.el")
+
+
+(load "~/.emacs.d/private/packages/git-complete/git-complete.el")
+
+(setenv "NODE_PATH" "/Users/ludwigws/.nvm/versions/node/v10.22.0/lib/node_modules")
+(use-package jieba
+  :load-path "~/.emacs.d/private/packages/jieba.el"
+  :commands jieba-mode
+  :init (jieba-mode))
 
 
 (provide 'init-local)
