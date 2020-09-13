@@ -106,6 +106,13 @@
 ;; (set-default 'preview-scale-function 1.2)
 
 
+;; [[https://www.orgroam.com/manual/mathpixel.html#mathpixel][mathpixel (Org-roam User Manual)]]
+;; (use-package mathpix.el
+;;   :straight (:host github :repo "jethrokuan/mathpix.el")
+;;   :custom ((mathpix-app-id "app-id")
+;;            (mathpix-app-key "app-key"))
+;;   :bind
+;;   ("C-x m" . mathpix-screenshot))
 
 
 
@@ -191,6 +198,28 @@
 ;; --------------------------------------------------------
 (require-package 'org-roam-bibtex)
 (require-package 'ivy-bibtex)
+
+(setq reftex-default-bibliography '("~/OneDrive/MyNote/bibliography/references.bib"))
+
+;; see org-ref for use of these variables
+(setq org-ref-bibliography-notes "~/OneDrive/MyNote/bibliography/notes.org"
+      org-ref-default-bibliography '("~/OneDrive/MyNote/bibliography/references.bib")
+      org-ref-pdf-directory "~/OneDrive/MyNote/bibliography/bibtex-pdfs/")
+
+;; If you use helm-bibtex as the citation key completion method you should set these variables too.
+
+;; (setq bibtex-completion-bibliography "~/Dropbox/bibliography/references.bib"
+;;       bibtex-completion-library-path "~/Dropbox/bibliography/bibtex-pdfs"
+;;       bibtex-completion-notes-path "~/Dropbox/bibliography/helm-bibtex-notes")
+
+;; open pdf with system pdf viewer (works on mac)
+(setq bibtex-completion-pdf-open-function
+      (lambda (fpath)
+        (start-process "open" "*open*" "open" fpath)))
+
+;; alternative
+;; (setq bibtex-completion-pdf-open-function 'org-open-file)
+
 (require-package 'org-ref)
 (use-package org-roam-bibtex
   :after org-roam
@@ -284,6 +313,79 @@
 ;;----------------------------------------------------------------------------------
 
 
+
+;; macOS prerequisite(maybe): brew install poppler automake
+(use-package pdf-tools
+  :ensure t
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :config
+  (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  (setq pdf-annot-activate-created-annotations t))
+
+
+(use-package org-noter
+  :after org
+  :ensure t)
+
+
+
+
+;;--------------------------
+;; [[https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/2][How can I create an Index file? - Troubleshooting - Org-roam]]
+;; [[https://github.com/zaeph/.emacs.d/blob/4548c34d1965f4732d5df1f56134dc36b58f6577/init.el#L2822-L2875][.emacs.d/init.el at 4548c34d1965f4732d5df1f56134dc36b58f6577 · zaeph/.emacs.d]]
+;; Handling file properties for ‘CREATED’ & ‘LAST_MODIFIED’
+;;--------------------------
+
+(defun zp/org-find-time-file-property (property &optional anywhere)
+  "Return the position of the time file PROPERTY if it exists.
+When ANYWHERE is non-nil, search beyond the preamble."
+  (save-excursion
+    (goto-char (point-min))
+    (let ((first-heading
+           (save-excursion
+             (re-search-forward org-outline-regexp-bol nil t))))
+      (when (re-search-forward (format "^#\\+%s:" property)
+                               (if anywhere nil first-heading)
+                               t)
+        (point)))))
+
+(defun zp/org-has-time-file-property-p (property &optional anywhere)
+  "Return the position of time file PROPERTY if it is defined.
+As a special case, return -1 if the time file PROPERTY exists but
+is not defined."
+  (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+    (save-excursion
+      (goto-char pos)
+      (if (and (looking-at-p " ")
+               (progn (forward-char)
+                      (org-at-timestamp-p 'lax)))
+          pos
+        -1))))
+
+(defun zp/org-set-time-file-property (property &optional anywhere pos)
+  "Set the time file PROPERTY in the preamble.
+When ANYWHERE is non-nil, search beyond the preamble.
+If the position of the file PROPERTY has already been computed,
+it can be passed in POS."
+  (when-let ((pos (or pos
+                      (zp/org-find-time-file-property property))))
+    (save-excursion
+      (goto-char pos)
+      (if (looking-at-p " ")
+          (forward-char)
+        (insert " "))
+      (delete-region (point) (line-end-position))
+      (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+        (insert now)))))
+
+(defun zp/org-set-last-modified ()
+  "Update the LAST_MODIFIED file property in the preamble."
+  (when (derived-mode-p 'org-mode)
+    (zp/org-set-time-file-property "LAST_MODIFIED")))
+
+(use-package org
+  :hook (before-save . zp/org-set-last-modified))
 
 
 
